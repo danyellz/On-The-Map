@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bep-cw-vtk">
-                                <rect key="frame" x="20" y="333" width="560" height="60"/>
+                                <rect key="frame" x="13" y="333" width="574" height="60"/>
                                 <color key="backgroundColor" red="0.42745098040000001" green="0.72941176470000002" blue="0.86666666670000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="BTT-YV-96p"/>
@@ -56,10 +56,10 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOc-2E-VpI">
-                                <rect key="frame" x="20" y="415" width="560" height="60"/>
+                                <rect key="frame" x="154" y="414" width="294" height="60"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="560" id="uXw-iE-SFD"/>
+                                    <constraint firstAttribute="width" constant="294" id="uXw-iE-SFD"/>
                                 </constraints>
                                 <state key="normal" title="Log in with Facebook">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,13 +69,13 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bep-cw-vtk" firstAttribute="top" secondItem="4F3-00-sYB" secondAttribute="bottom" constant="8" id="9JQ-A9-ses"/>
-                            <constraint firstItem="lOc-2E-VpI" firstAttribute="top" secondItem="bep-cw-vtk" secondAttribute="bottom" constant="22" id="9vd-Vt-PFM"/>
-                            <constraint firstItem="bep-cw-vtk" firstAttribute="centerX" secondItem="lOc-2E-VpI" secondAttribute="centerX" id="Efm-sX-pjG"/>
-                            <constraint firstItem="bep-cw-vtk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="G9i-Dz-Wa2"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lOc-2E-VpI" secondAttribute="bottom" constant="125" id="J8t-wY-nL1"/>
+                            <constraint firstItem="lOc-2E-VpI" firstAttribute="top" secondItem="bep-cw-vtk" secondAttribute="bottom" constant="21" id="9vd-Vt-PFM"/>
+                            <constraint firstItem="bep-cw-vtk" firstAttribute="centerX" secondItem="lOc-2E-VpI" secondAttribute="centerX" constant="-1" id="Efm-sX-pjG"/>
+                            <constraint firstItem="bep-cw-vtk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="13" id="G9i-Dz-Wa2"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lOc-2E-VpI" secondAttribute="bottom" constant="126" id="J8t-wY-nL1"/>
                             <constraint firstItem="4F3-00-sYB" firstAttribute="top" secondItem="6yD-yc-FOu" secondAttribute="bottom" constant="3" id="Jeh-SK-27o"/>
                             <constraint firstItem="4F3-00-sYB" firstAttribute="centerX" secondItem="bep-cw-vtk" secondAttribute="centerX" id="Jg5-UO-4rh"/>
-                            <constraint firstAttribute="trailing" secondItem="bep-cw-vtk" secondAttribute="trailing" constant="20" id="S9b-2k-Cz7"/>
+                            <constraint firstAttribute="trailing" secondItem="bep-cw-vtk" secondAttribute="trailing" constant="13" id="S9b-2k-Cz7"/>
                             <constraint firstItem="6yD-yc-FOu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="WHa-yC-P82"/>
                             <constraint firstItem="6yD-yc-FOu" firstAttribute="top" secondItem="StM-Fl-WJf" secondAttribute="bottom" constant="38" id="h6K-CQ-DS4"/>
                             <constraint firstItem="6yD-yc-FOu" firstAttribute="leading" secondItem="4F3-00-sYB" secondAttribute="leading" id="mi4-f9-MBC"/>
