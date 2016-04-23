@@ -24,9 +24,7 @@ class OnTheMapTable: UITableViewController{
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        
         getStudentData()
-        
     }
     
     @IBAction func reloadBtnPressed(sender: AnyObject) {
@@ -35,12 +33,29 @@ class OnTheMapTable: UITableViewController{
     
     func getStudentData(){
         
-        let loadSpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
-        loadSpinner.center = view.center
-        loadSpinner.startAnimating()
-        view.addSubview(loadSpinner)
+        let activityView = UIView.init(frame: view.frame)
+        activityView.backgroundColor = UIColor.grayColor()
+        activityView.alpha = 0.8
+        view.addSubview(activityView)
+        
+        let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activitySpinner.center = view.center
+        activitySpinner.startAnimating()
+        activityView.addSubview(activitySpinner)
+        
         
         ParseClient.sharedInstance().getStudentLocations {(result, error) in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                activityView.removeFromSuperview()
+                activitySpinner.stopAnimating()
+            })
+            
+            guard error == nil else{
+                self.showAlert("Woops!", alertMessage: "There was an error retrieving student table data", actionTitle: "Try Again")
+                
+                return
+            }
             
             
             if !UserInformation.studentData.isEmpty{
@@ -50,15 +65,10 @@ class OnTheMapTable: UITableViewController{
             for s in result!{
                 UserInformation.studentData.append(UserInformation(dictionary: s))
             }
-                UserInformation.studentData = UserInformation.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    loadSpinner.stopAnimating()
-                    self.tableView.reloadData()
-                })
-            }
-
+            UserInformation.studentData = UserInformation.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
         }
+        
+    }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserInformation.studentData.count
@@ -70,7 +80,34 @@ class OnTheMapTable: UITableViewController{
         let titleText = student.firstName + " " + student.lastName
         
         cell?.textLabel?.text = titleText
-    
+        
         return cell!
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let selectedUrl = UserInformation.studentData[indexPath.row]
+        let userUrl = selectedUrl.mediaURL
+        
+        if userUrl.rangeOfString("http") != nil{
+            UIApplication.sharedApplication().openURL(NSURL(string: "\(userUrl)")!)
+        }else{
+            showAlert("Invalid", alertMessage: "It looks like this link is invalid", actionTitle: "Try Another")
+        }
+    }
+    
+    func sessionLogOut(){
+        OnTheMapClient.sharedInstance().deleteSession(UITabBarController!)
+    }
+    
+    @IBAction func logOutAction(sender: AnyObject) {
+        sessionLogOut()
+    }
+    
+    
+    func showAlert(alertTitle: String, alertMessage: String, actionTitle: String){
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: actionTitle, style: .Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
 }
