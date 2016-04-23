@@ -5,6 +5,7 @@
 //  Created by TY on 4/1/16.
 //  Copyright © 2016 On The Map. All rights reserved.
 //
+//Created in order to avoid "code pyramids" and for code to be more readable
 
 import Foundation
 import UIKit
@@ -12,8 +13,10 @@ import MapKit
 
 extension ParseClient{
     
+    //Reusable convenience method to fetch student locations, called in MapMapViewController and OnTheMapTableViewController
     func getStudentLocations(completionHandler: (result: [[String: AnyObject]]?, error: NSError?) -> Void){
         
+        //Calls the client function taskForGet
         taskForGetMethod(Methods.StudentCoords, parameters: nil) {(JSONResult, error) in
             
             func sendError(error: String){
@@ -35,6 +38,7 @@ extension ParseClient{
     }
     }
     
+    //Convenience method to post student data to the Parse database using the API, called in MapMapViewController and OnTheMapTableViewController
     func postStudentLocationsConvenience(jsonBody: [String: AnyObject], completionHandler: (result: AnyObject?, error: NSError?) -> Void) {
         
         taskforPostMethod(Methods.StudentCoords, jsonBody: jsonBody) {(JSONResult, error) in
@@ -59,6 +63,7 @@ extension ParseClient{
         }
     }
     
+    //Comvenience method for uploading new student data to Parse, called in MapMapViewController and OnTheMapTableViewController
     func putStudentLocationsConvenience(parameters: String, jsonBody: [String: AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void){
         
         taskforPutMethod(JSONResponseKeys.ObjectID, parameters: parameters, jsonBody: jsonBody) {(JSONResult, error) in

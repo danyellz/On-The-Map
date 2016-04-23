@@ -6,6 +6,8 @@
 //  Copyright © 2016 On The Map. All rights reserved.
 //
 
+//Create constants to easily build requests from the Udacity API key/values
+
 import Foundation
 
 extension OnTheMapClient {

@@ -6,11 +6,14 @@
 //  Copyright © 2016 On The Map. All rights reserved.
 //
 
+//Convenience method to avoid code pyramid/do error checking for the client functions
+
 import UIKit
 import Foundation
 
 extension OnTheMapClient{
     
+    //Create a conenience method to easily take user input and compares it with Udacity user data
     func postSession(username: String, password: String, completionHandler: (sessionID: String?, error: NSError?) -> Void){
         print("Post session was called!")
         
@@ -20,7 +23,7 @@ extension OnTheMapClient{
             JSONBodyKeys.Pass : password
             ],
         ]
-        
+        //Call taskForPostMethod created in OnTheMapClient
         taskForPostMethod(method, jsonBody: jsonBody){(JSONResult, error) in
             print("taskForPost executed!")
             guard error == nil else{
@@ -28,6 +31,7 @@ extension OnTheMapClient{
                 return
             }
             
+            //If the matching user account is returned from the request, print the account data
             if let dictionary = JSONResult![JSONResponseKeys.Account] as? [String:AnyObject]{
                 print("JSONResult yielded account:\(dictionary)")
                 if let result = dictionary[JSONResponseKeys.Key] as? String {
@@ -44,6 +48,7 @@ extension OnTheMapClient{
         }
     }
     
+    //Delete session token before logging out/transitioning to a new view
     func deleteSession(tabBarController: UITabBarController) {
         
         let method = Methods.Session
@@ -55,14 +60,14 @@ extension OnTheMapClient{
                 return
             }
         }
-        
+        //Return to initial view controller
         dispatch_async(dispatch_get_main_queue(), {
             tabBarController.dismissViewControllerAnimated(true, completion: nil)
         })
         print("Logout was successful!")
     }
     
-    
+    //After user login data is verified get necessary data w/ client method
     func getUserData(userID: String, completionHandler: (result: [String]?, error: NSError?) -> Void) {
         let method = Methods.Users + userID
         
@@ -91,7 +96,4 @@ extension OnTheMapClient{
             }
         }
     }
-    //WRITE MORE HERE
-    
-    
 }

@@ -49,7 +49,7 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
     
     func getUserData(){
         
-        /* GET the users first and last name */
+        /* GET the users Parse data with their Udacity login session token*/
         OnTheMapClient.sharedInstance().getUserData(OnTheMapClient.sharedInstance().sessionID!) {(result, error) in
             
             guard error == nil else {

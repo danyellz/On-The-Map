@@ -6,6 +6,7 @@
 //  Copyright © 2016 On The Map. All rights reserved.
 //
 
+//Struct containing all of the key/value pairs needed to easily format URLs or get data with specific values
 import Foundation
 
 extension ParseClient{

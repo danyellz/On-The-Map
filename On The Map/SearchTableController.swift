@@ -6,15 +6,17 @@
 //  Copyright © 2016 On The Map. All rights reserved.
 //
 
+//Custom table created to store autocomplete results from Google Places
+
 import Foundation
 import UIKit
 
+//protocol to contain coordinates from selected row in Google maps autocomplete table
 protocol LocateOnTheMap{
     func locateWithLongitude(lon:Double, andLatitude lat:Double, andTitle title: String)
 }
 
 class SearchTableController: UITableViewController {
-    
     var searchResults: [String]!
     var delegate: LocateOnTheMap!
     
@@ -33,30 +35,26 @@ class SearchTableController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return self.searchResults.count
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellIdentifier", forIndexPath: indexPath)
-        
         cell.textLabel?.text = self.searchResults[indexPath.row]
         return cell
     }
     
     
-    
+    //When table cell is selected, prepare annotation for the GMaps view
     override func tableView(tableView: UITableView,
                             didSelectRowAtIndexPath indexPath: NSIndexPath){
         // 1
         self.dismissViewControllerAnimated(true, completion: nil)
-         2
                 let correctedAddress:String! = self.searchResults[indexPath.row].stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.symbolCharacterSet())
                 let url = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=\(correctedAddress)&sensor=false")
         
@@ -81,8 +79,7 @@ class SearchTableController: UITableViewController {
                 // 5
                 task.resume()
         }
-    
-    
+    //Update data in the tableView
     func reloadDataWithArray(array:[String]){
         self.searchResults = array
         self.tableView.reloadData()

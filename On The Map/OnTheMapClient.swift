@@ -76,6 +76,7 @@ class OnTheMapClient : NSObject{
         return task
     }
     
+    //Create a request to send login data to the Udacity server, in order to retrieve a session token
     func taskForPostMethod(method: String, jsonBody: [String: AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         let urlString = Constants.UdacityBaseUrl + method
@@ -125,6 +126,7 @@ class OnTheMapClient : NSObject{
     
     }
     
+    //Used to delete session token before transitioning back to initial view
     func taskForDeleteMethod(method: String, completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask{
         
         let urlString = Constants.UdacityBaseUrl + method
@@ -161,6 +163,7 @@ class OnTheMapClient : NSObject{
         return task
     }
     
+    //Reusable function to parse JSON data during GET/POST requests
     class func convertDataWithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
         
         var parsedResult: AnyObject!
@@ -174,6 +177,7 @@ class OnTheMapClient : NSObject{
         completionHandlerForConvertData(result: parsedResult, error: nil)
     }
     
+    //Allow session token to be used throughout the app
     class func sharedInstance() -> OnTheMapClient {
         struct Singleton {
             static var sharedInstance = OnTheMapClient()
