@@ -14,7 +14,7 @@ class OnTheMapClient : NSObject{
     
     // shared session
     var session: NSURLSession
- 
+    
     // authentication state
     var requestToken: String? = nil
     var sessionID: String? = nil
@@ -92,23 +92,29 @@ class OnTheMapClient : NSObject{
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
+            func sendError(error: String){
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandler(result: nil, error: NSError(domain: "taskForPostMethod", code: 1, userInfo: userInfo))
+            }
+            
             print("The request was sent!")
             
             guard error == nil else{
-                print("Data failed to return due to \(error)")
+                sendError("There was an error posting user data.")
                 return
             }
             
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 &&  statusCode <= 299 else{
                 
-                if let response = (response as? NSHTTPURLResponse){
-                    print("Returned an invalid response w/ status code: \(error)")
+                if let response = response as? NSHTTPURLResponse {
+                    completionHandler(result: response, error: nil)
                 }
                 else if let response = response{
-                    print("Invalid response: \(response)")
+                    sendError("There was an error getting your response.")
                 }
                 else{
-                    print("Your request returned an invlid reponse w/o error code!")
+                    sendError("There was an error making your request in taskForPost.")
                 }
                 return
             }
@@ -123,7 +129,7 @@ class OnTheMapClient : NSObject{
         }
         task.resume()
         return task
-    
+        
     }
     
     //Used to delete session token before transitioning back to initial view
@@ -153,7 +159,7 @@ class OnTheMapClient : NSObject{
             }
             
             if let newData = data?.subdataWithRange(NSMakeRange(5, (data?.length)! - 5)){
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+                print(NSString(data: newData, encoding: NSUTF8StringEncoding))
             }
         }
         

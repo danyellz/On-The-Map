@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var loginPressed: UIButton!
     
     var appDelegate: AppDelegate!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,38 +30,56 @@ class ViewController: UIViewController {
     
     //Uses username and password and compares strings to userdata form Udacity
     func loginSession(){
+        //Loading animation while data is fetched from the server
+        let activityView = UIView.init(frame: view.frame)
+        activityView.backgroundColor = UIColor.grayColor()
+        activityView.alpha = 0.8
+        self.view.addSubview(activityView)
+        
+        let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activitySpinner.center = view.center
+        activitySpinner.startAnimating()
+        activityView.addSubview(activitySpinner)
+        
         OnTheMapClient.sharedInstance().postSession(userField.text!, password: passField.text!) {(sessionID, error) in
             
-            //Loading animation while data is fetched from the server
-            let activityView = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-            activityView.center = self.view.center
-            activityView.startAnimating()
-            self.view.addSubview(activityView)
+            guard error == nil else{
+                dispatch_async(dispatch_get_main_queue(),{
+                    activityView.removeFromSuperview()
+                    activitySpinner.stopAnimating()
+                    self.showAlert("Woops", alertMessage: "There was an error connecting to the server, try new credentials or reconnect", actionTitle: "Try Again")
+                })
+                return
+            }
             
             //If a session ID is present, remove animation
-            if let sessionID = sessionID {
+            if sessionID != nil{
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    activityView.stopAnimating()
                     activityView.removeFromSuperview()
-                    })
+                    activitySpinner.stopAnimating()
+                })
                 //Store session ID in OnTheMapClient
                 OnTheMapClient.sharedInstance().sessionID = sessionID
                 //Instantiate the next view controller if login is successful
                 self.completeLogin()
             } else {
-                self.showAlert("Woops", alertMessage: "There was an error connecting to the server, try new credentials or reconnect", actionTitle: "Try Again")
+                dispatch_async(dispatch_get_main_queue(),{
+                    activityView.removeFromSuperview()
+                    activitySpinner.stopAnimating()
+                    self.showAlert("Woops", alertMessage: "There was an error connecting to the server, try new credentials or reconnect.", actionTitle: "Try Again")
+                })
             }
         }
     }
     
     func completeLogin() {
         dispatch_async(dispatch_get_main_queue(), {
-
-        performUIUpdatesOnMain {
-            self.setUIEnabled(true)
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("OnTheMapViewController")
-            self.presentViewController(controller, animated: true, completion: nil)
+            
+            performUIUpdatesOnMain {
+                self.setUIEnabled(true)
+                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("OnTheMapViewController")
+                self.presentViewController(controller, animated: true, completion: nil)
             }
         })
     }
@@ -74,4 +92,12 @@ extension ViewController {
         userField.enabled = enabled
         passField.enabled = enabled
     }
+    
+    func showAlert(alertTitle: String, alertMessage: String, actionTitle: String){
+        let alert = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: actionTitle, style: .Default, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
 }

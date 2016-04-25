@@ -25,7 +25,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     
     var googleMaps: GMSMapView!
     var searchTableController: SearchTableController!
-    var resultsArray = [String]()
+    var resultsArray = [String
+        ]()
     //Store latitude
     var userLat = [Double]()
     //Store longitue
@@ -54,7 +55,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         super.viewDidAppear(true)
         self.googleMaps = GMSMapView(frame: self.googleMapsView.frame)
         self.view.addSubview(self.googleMaps)
-
+        
         searchTableController = SearchTableController()
         searchTableController.delegate = self
     }
@@ -72,7 +73,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         
         let activityView = UIView.init(frame: view.frame)
         activityView.backgroundColor = UIColor.grayColor()
-        activityView.alpha = 1
+        activityView.alpha = 0.8
         view.addSubview(activityView)
         
         let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
@@ -113,29 +114,13 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     //Set up the address searchBar
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String){
         
-        //Begin activity animation
-        let activityView = UIView.init(frame: view.frame)
-        activityView.backgroundColor = UIColor.grayColor()
-        activityView.alpha = 0.8
-        view.addSubview(activityView)
-        
-        let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
-        activitySpinner.center = view.center
-        activitySpinner.startAnimating()
-        activityView.addSubview(activitySpinner)
-        
         let mapsClient = GMSPlacesClient()
         mapsClient.autocompleteQuery(searchText, bounds: nil, filter: nil) {(results, error: NSError?) in
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                activityView.removeFromSuperview
-                activitySpinner.stopAnimating
-                })
             
             self.resultsArray.removeAll()
             
             if results == nil{
-                showAlert("Woops", alertMessage: "You were unable to return any addresses. Try reconnecting", actionTitle: "Try Again")
+                self.showAlert("Woops", alertMessage: "You were unable to return any addresses. Try reconnecting", actionTitle: "Try Again")
                 return
             }
             
@@ -168,7 +153,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             return
         }
         
-        //Begin activity animation
         let activityView = UIView.init(frame: view.frame)
         activityView.backgroundColor = UIColor.grayColor()
         activityView.alpha = 0.8
@@ -198,42 +182,52 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             ParseClient.sharedInstance().postStudentLocationsConvenience(updatedStudentInfo) {(result, error) in
                 
                 guard error == nil else{
-                    dispatch_async(dispatch_get_main_queue, {
-                        activityView.removeFromSuperview
-                        activitySpinner.stopAnimating
+                    dispatch_async(dispatch_get_main_queue(), {
+                        activityView.removeFromSuperview()
+                        activitySpinner.stopAnimating()
+                        self.showAlert("Couldn't Update Info", alertMessage: "There was an error with your request. Try reconnecting", actionTitle: "Ok")
                     })
-                    self.showAlert("Couldn't Update Info", alertMessage: "Error while trying to add your new data (post)", actionTitle: "Ok")
                     return
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), {
-                    activityView.removeFromSuperview
-                    activitySpinner.stopAnimating
+                //Remove temporary values from arrays
+                self.userLat.removeAll()
+                self.userLong.removeAll()
+                
+                
+                dispatch_async(dispatch_get_main_queue(),{
+                    activityView.removeFromSuperview()
+                    activitySpinner.stopAnimating()
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
+                
             }
-            
         }else{
             
             //There is an objectID available, upload new student data to Parse
             ParseClient.sharedInstance().putStudentLocationsConvenience(appDelegate.objectID, jsonBody: updatedStudentInfo) {(result, error) in
                 
                 guard error == nil else{
-                    self.showAlert("Couldn't Update Info", alertMessage: "Unable to add your new data (put)", actionTitle: "Ok")
+                    dispatch_async(dispatch_get_main_queue(), {
+                        activityView.removeFromSuperview()
+                        activitySpinner.stopAnimating()
+                        self.showAlert("Couldn't Update Info", alertMessage: "There was an error with your request. Try reconnecting", actionTitle: "Ok")
+                    })
                     return
                 }
                 
-                dispatch_async(dispatch_get_main_queue(), {
-                    activityView.removeFromSuperview
-                    activitySpinner.stopAnimating
+                //Remove temporary values from arrays
+                self.userLat.removeAll()
+                self.userLong.removeAll()
+                
+                dispatch_async(dispatch_get_main_queue(),{
+                    activityView.removeFromSuperview()
+                    activitySpinner.stopAnimating()
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
+                
             }
         }
-        
-        //Remove temporary values from arrays
-        userLat.removeAll()
-        userLong.removeAll()
     }
     
     //Function to show alert message for error checking
@@ -243,5 +237,5 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         
         self.presentViewController(alert, animated: true, completion: nil)
     }
-
+    
 }
