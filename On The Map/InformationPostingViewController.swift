@@ -113,12 +113,29 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     //Set up the address searchBar
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String){
         
+        //Begin activity animation
+        let activityView = UIView.init(frame: view.frame)
+        activityView.backgroundColor = UIColor.grayColor()
+        activityView.alpha = 0.8
+        view.addSubview(activityView)
+        
+        let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activitySpinner.center = view.center
+        activitySpinner.startAnimating()
+        activityView.addSubview(activitySpinner)
+        
         let mapsClient = GMSPlacesClient()
         mapsClient.autocompleteQuery(searchText, bounds: nil, filter: nil) {(results, error: NSError?) in
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                activityView.removeFromSuperview
+                activitySpinner.stopAnimating
+                })
             
             self.resultsArray.removeAll()
             
             if results == nil{
+                showAlert("Woops", alertMessage: "You were unable to return any addresses. Try reconnecting", actionTitle: "Try Again")
                 return
             }
             
