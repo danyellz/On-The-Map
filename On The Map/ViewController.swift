@@ -50,8 +50,7 @@ class ViewController: UIViewController {
                 //Instantiate the next view controller if login is successful
                 self.completeLogin()
             } else {
-                //ERROR: WRONG USERNAME/PW
-                print ("Error, wrong username")
+                self.showAlert("Woops", alertMessage: "There was an error connecting to the server, try new credentials or reconnect", actionTitle: "Try Again")
             }
         }
     }

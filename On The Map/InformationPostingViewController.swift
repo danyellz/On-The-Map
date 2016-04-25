@@ -151,6 +151,17 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             return
         }
         
+        //Begin activity animation
+        let activityView = UIView.init(frame: view.frame)
+        activityView.backgroundColor = UIColor.grayColor()
+        activityView.alpha = 0.8
+        view.addSubview(activityView)
+        
+        let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activitySpinner.center = view.center
+        activitySpinner.startAnimating()
+        activityView.addSubview(activitySpinner)
+        
         //Prepare data to be posted (notice how I used the lat/long arrays here)
         let updatedStudentInfo : [String: AnyObject] = [
             ParseClient.JSONBodyKeys.UniqueKey: OnTheMapClient.sharedInstance().sessionID!,
@@ -170,11 +181,17 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             ParseClient.sharedInstance().postStudentLocationsConvenience(updatedStudentInfo) {(result, error) in
                 
                 guard error == nil else{
+                    dispatch_async(dispatch_get_main_queue, {
+                        activityView.removeFromSuperview
+                        activitySpinner.stopAnimating
+                    })
                     self.showAlert("Couldn't Update Info", alertMessage: "Error while trying to add your new data (post)", actionTitle: "Ok")
                     return
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), {
+                    activityView.removeFromSuperview
+                    activitySpinner.stopAnimating
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
             }
@@ -190,6 +207,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), {
+                    activityView.removeFromSuperview
+                    activitySpinner.stopAnimating
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
             }
