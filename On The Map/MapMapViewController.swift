@@ -89,18 +89,18 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
             }
             
             /*If studentData array in data model is not empty, remove all previous data to prepare view*/
-            if !UserInformation.studentData.isEmpty{
-                UserInformation.studentData.removeAll()
+            if !AppDelegate.studentData.isEmpty{
+                AppDelegate.studentData.removeAll()
             }
             
             /*Unwrap the optional result or the userinformation loaded from Parse*/
             /*Add all Udacity user's data from parse into local data model*/
             for s in result! {
-                UserInformation.studentData.append(UserInformation(dictionary: s))
+                AppDelegate.studentData.append(UserInformation(dictionary: s))
             }
             
             /*Query the student data from most recent to latest, to be used on the map*/
-            UserInformation.studentData = UserInformation.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
+            AppDelegate.studentData = AppDelegate.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
             
             /*Add student data to the map*/
             dispatch_async(dispatch_get_main_queue(), {
@@ -136,7 +136,7 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
         var points = [CLLocationCoordinate2D]()
         
         /* For each student in the data */
-        for s in UserInformation.studentData {
+        for s in AppDelegate.studentData {
             
             self.cllocationManager.delegate = self
             
