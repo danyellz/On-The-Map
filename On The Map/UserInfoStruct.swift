@@ -22,10 +22,7 @@ struct UserInformation {
     var createdAt: NSDate
     var updatedAt: NSDate
     
-    //Array that holds all student data
-    static var studentData = [UserInformation]()
-    
-    //Dictionary that defines location of data being retrieved then stored from Parse API key/values 
+    //Dictionary that defines location of data being retrieved then stored from Parse API key/values
     init(dictionary: [String : AnyObject]) {
         
         let dateFormatter = NSDateFormatter()

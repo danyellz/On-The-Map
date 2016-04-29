@@ -53,32 +53,55 @@ class SearchTableController: UITableViewController {
     //When table cell is selected, prepare annotation for the GMaps view
     override func tableView(tableView: UITableView,
                             didSelectRowAtIndexPath indexPath: NSIndexPath){
-        // 1
-        self.dismissViewControllerAnimated(true, completion: nil)
-                let correctedAddress:String! = self.searchResults[indexPath.row].stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.symbolCharacterSet())
-                let url = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=\(correctedAddress)&sensor=false")
         
-                let task = NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) -> Void in
-                    // 3
-                    do {
-                        if data != nil{
-                            let dic = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableLeaves) as! NSDictionary
+        let correctedAddress:String! = self.searchResults[indexPath.row].stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.symbolCharacterSet())
+        let url = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=\(correctedAddress)&sensor=false")
         
-                            print(dic)
+        let activityView = UIView.init(frame: view.frame)
+        activityView.backgroundColor = UIColor.grayColor()
+        activityView.layer.opacity = 0.8
+        view.addSubview(activityView)
         
-                            let lat = dic["results"]?.valueForKey("geometry")?.valueForKey("location")?.valueForKey("lat")?.objectAtIndex(0) as! Double
-                            let lon = dic["results"]?.valueForKey("geometry")?.valueForKey("location")?.valueForKey("lng")?.objectAtIndex(0) as! Double
-                            // 4
-                            self.delegate.locateWithLongitude(lon, andLatitude: lat, andTitle: self.searchResults[indexPath.row])
-                        }
+        let activityIndicator = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        activityIndicator.center = view.center
+        activityIndicator.startAnimating()
+        activityView.addSubview(activityIndicator)
         
-                    }catch {
-                        print("Error")
-                    }
+        
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) -> Void in
+            
+            activityView.removeFromSuperview()
+            activityIndicator.stopAnimating()
+            
+            guard error == nil else{
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.showAlertMessage("There was an issue geocoding your address!")
+                })
+                activityView.removeFromSuperview()
+                activityIndicator.stopAnimating()
+                print("There was an issue geocoding your address!")
+                return
+            }
+            // 3
+            do {
+                if data != nil{
+                    let dic = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableLeaves) as! NSDictionary
+                    
+                    let lat = dic["results"]?.valueForKey("geometry")?.valueForKey("location")?.valueForKey("lat")?.objectAtIndex(0) as! Double
+                    let lon = dic["results"]?.valueForKey("geometry")?.valueForKey("location")?.valueForKey("lng")?.objectAtIndex(0) as! Double
+                    // 4
+                    self.delegate.locateWithLongitude(lon, andLatitude: lat, andTitle: self.searchResults[indexPath.row])
+                    
+                    self.dismissViewControllerAnimated(true, completion: nil)
                 }
-                // 5
-                task.resume()
+                
+            }catch {
+                print("There was an error geocoding the address")
+            }
         }
+        // 5
+        task.resume()
+    }
     //Update data in the tableView
     func reloadDataWithArray(array:[String]){
         self.searchResults = array
@@ -86,7 +109,7 @@ class SearchTableController: UITableViewController {
     }
     
     func showAlertMessage(message: String){
-        let alertController = UIAlertController(title: "AutoCompleteDemo", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        let alertController = UIAlertController(title: "Woops", message: message, preferredStyle: UIAlertControllerStyle.Alert)
         
         let closeAlertAction  = UIAlertAction(title: "Close", style: UIAlertActionStyle.Cancel) {(alertAction) -> Void in
         }

@@ -47,7 +47,7 @@ class ViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue(),{
                     activityView.removeFromSuperview()
                     activitySpinner.stopAnimating()
-                    self.showAlert("Woops", alertMessage: "There was an error connecting to the server, try new credentials or reconnect", actionTitle: "Try Again")
+                    self.showAlert("Woops", alertMessage: "There was an error connecting to the server, reconnect then try again", actionTitle: "Try Again")
                 })
                 return
             }
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue(),{
                     activityView.removeFromSuperview()
                     activitySpinner.stopAnimating()
-                    self.showAlert("Woops", alertMessage: "There was an error connecting to the server, try new credentials or reconnect.", actionTitle: "Try Again")
+                    self.showAlert("Woops", alertMessage: "It looks like the credentials are invalid. Please try a different username/password combination", actionTitle: "Try Again")
                 })
             }
         }

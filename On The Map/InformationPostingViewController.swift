@@ -13,17 +13,15 @@ import UIKit
 import MapKit
 import GoogleMaps
 
-class InformationPostingViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate, UISearchBarDelegate, LocateOnTheMap {
+class InformationPostingViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate, CLLocationManagerDelegate, UISearchBarDelegate, LocateOnTheMap {
     
-    @IBOutlet weak var googleMapsView: UIView!
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var urlLinkField: UITextField!
     @IBOutlet weak var updateInfoBtn: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var searchPlacesBtn: UIButton!
     
     var mapViewController: MapMapViewController!
-    
-    var googleMaps: GMSMapView!
     var searchTableController: SearchTableController!
     var resultsArray = [String
         ]()
@@ -53,8 +51,8 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     override func viewDidAppear(animated: Bool) {
         //Load Google maps view
         super.viewDidAppear(true)
-        self.googleMaps = GMSMapView(frame: self.googleMapsView.frame)
-        self.view.addSubview(self.googleMaps)
+        self.mapView = MKMapView(frame: self.mapView.frame)
+        self.view.addSubview(self.mapView)
         
         searchTableController = SearchTableController()
         searchTableController.delegate = self
@@ -71,16 +69,6 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     //Geocode address to be placed on Google map view
     func locateWithLongitude(lon: Double, andLatitude lat: Double, andTitle title: String) {
         
-        let activityView = UIView.init(frame: view.frame)
-        activityView.backgroundColor = UIColor.grayColor()
-        activityView.alpha = 0.8
-        view.addSubview(activityView)
-        
-        let activitySpinner = UIActivityIndicatorView.init(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
-        activitySpinner.center = view.center
-        activitySpinner.startAnimating()
-        activityView.addSubview(activitySpinner)
-        
         //Prepare lat and long to be posted to the database
         self.userLat.append(lat)
         self.userLong.append(lon)
@@ -88,14 +76,15 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         dispatch_async(dispatch_get_main_queue(), {
             
             //Zoom to the coordinate loaded onto GMap
-            let position = CLLocationCoordinate2DMake(lat, lon)
-            let marker = GMSMarker(position: position)
+            /* Get the lat and lon values to create a coordinate */
+            let lat = CLLocationDegrees(lat)
+            let lon = CLLocationDegrees(lon)
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
             
-            let camera = GMSCameraPosition.cameraWithLatitude(lat, longitude: lon, zoom: 15)
-            self.googleMaps.camera = camera
-            
-            marker.title = "New Location: \(title)"
-            marker.map = self.googleMaps
+            /* Make the map annotation with the coordinate and other student data */
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(title)"
             
             self.urlLinkField.hidden = false
             self.urlLinkField.enabled = true
@@ -106,10 +95,40 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
             
             self.addressString.append(title)
             
-            activityView.removeFromSuperview()
-            activitySpinner.stopAnimating()
+            let latDelta: CLLocationDegrees = 0.05
+            let lonDelta: CLLocationDegrees = 0.05
+            let span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
+            let location: CLLocationCoordinate2D = CLLocationCoordinate2DMake(lat, lon)
+            let region: MKCoordinateRegion = MKCoordinateRegionMake(location, span)
+            self.mapView.setRegion(region, animated: true)
+            
+            self.mapView.addAnnotation(annotation)
         })
     }
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            if #available(iOS 9.0, *) {
+                pinView!.pinTintColor = UIColor.greenColor()
+            }else {
+                // Fallback on earlier versions
+            }
+            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            pinView?.enabled = true
+            
+        }else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
     
     //Set up the address searchBar
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String){

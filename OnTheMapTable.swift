@@ -63,29 +63,29 @@ class OnTheMapTable: UITableViewController{
             }
             
             //If there is data currently loaded into the table, remove all previous data
-            if !UserInformation.studentData.isEmpty{
-                UserInformation.studentData.removeAll()
+            if !AppDelegate.studentData.isEmpty{
+                AppDelegate.studentData.removeAll()
             }
             
             //Add new data to the student data struct, replacing removed data
             for s in result!{
-                UserInformation.studentData.append(UserInformation(dictionary: s))
+                AppDelegate.studentData.append(UserInformation(dictionary: s))
             }
             //Load student data from latest to oldest when querying from Parse
-            UserInformation.studentData = UserInformation.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
+            AppDelegate.studentData = AppDelegate.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
         }
         
     }
     
     //Determine the number of rows loaded onto the tableview
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserInformation.studentData.count
+        return AppDelegate.studentData.count
     }
     
     //When a cell is selected, go to the student URL
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("studentDataCell")
-        let student = UserInformation.studentData[indexPath.row]
+        let student = AppDelegate.studentData[indexPath.row]
         let titleText = student.firstName + " " + student.lastName
         
         cell?.textLabel?.text = titleText
@@ -94,8 +94,9 @@ class OnTheMapTable: UITableViewController{
     }
     
     //When a cell is selected, go to the student URL
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedUrl = UserInformation.studentData[indexPath.row]
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let selectedUrl = AppDelegate.studentData[indexPath.row]
         let userUrl = selectedUrl.mediaURL
         
         if userUrl.rangeOfString("http") != nil{
