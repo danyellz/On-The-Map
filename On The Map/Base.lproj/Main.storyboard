@@ -59,7 +59,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoImg" translatesAutoresizingMaskIntoConstraints="NO" id="StM-Fl-WJf">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LogoImg" translatesAutoresizingMaskIntoConstraints="NO" id="StM-Fl-WJf">
                                 <rect key="frame" x="250" y="74" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="fyE-NT-MWZ"/>
@@ -105,9 +105,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTM-pH-Ni2">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
-                            </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0z-rM-b4x">
                                 <rect key="frame" x="209" y="72" width="183" height="57"/>
                                 <constraints>
@@ -117,6 +114,9 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTM-pH-Ni2">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -200,10 +200,6 @@
                                     <action selector="updateUserInfo:" destination="VLl-HA-g7E" eventType="touchUpInside" id="vIn-gh-HWb"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oyJ-KD-JLq">
-                                <rect key="frame" x="0.0" y="191" width="600" height="368"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add URL beginning with https://" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uWI-R8-gcV">
                                 <rect key="frame" x="149" y="153" width="301" height="30"/>
                                 <constraints>
@@ -218,25 +214,28 @@
                                     <action selector="searchPlacesBtn:" destination="VLl-HA-g7E" eventType="touchUpInside" id="w0w-w8-CjK"/>
                                 </connections>
                             </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zum-QY-4K9">
+                                <rect key="frame" x="0.0" y="191" width="600" height="370"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" red="0.42745098040000001" green="0.72941176470000002" blue="0.86666666670000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="oyJ-KD-JLq" firstAttribute="top" secondItem="K6g-oW-xWc" secondAttribute="bottom" constant="12" id="1cE-8H-BXn"/>
-                            <constraint firstItem="Llv-qf-EkB" firstAttribute="leading" secondItem="FuP-MI-T0g" secondAttribute="leading" id="7sB-dJ-MK8"/>
-                            <constraint firstItem="ubf-t8-dEL" firstAttribute="top" secondItem="VF8-RP-UNJ" secondAttribute="bottom" id="8EW-qC-Fn7"/>
-                            <constraint firstItem="FuP-MI-T0g" firstAttribute="bottom" secondItem="A2h-GG-adr" secondAttribute="top" id="FZn-cg-7vQ"/>
-                            <constraint firstItem="FuP-MI-T0g" firstAttribute="top" secondItem="oyJ-KD-JLq" secondAttribute="bottom" constant="1" id="Ivh-aX-cUa"/>
-                            <constraint firstItem="oyJ-KD-JLq" firstAttribute="leading" secondItem="xEw-yG-Gbu" secondAttribute="leadingMargin" constant="-20" id="JjV-qw-iyH"/>
-                            <constraint firstItem="uWI-R8-gcV" firstAttribute="centerX" secondItem="K6g-oW-xWc" secondAttribute="centerX" id="K5e-ow-DWm"/>
-                            <constraint firstItem="K6g-oW-xWc" firstAttribute="top" secondItem="VF8-RP-UNJ" secondAttribute="bottom" constant="137" id="Rv2-3x-oL7"/>
-                            <constraint firstItem="Llv-qf-EkB" firstAttribute="centerX" secondItem="K6g-oW-xWc" secondAttribute="centerX" id="T93-Q7-agh"/>
-                            <constraint firstItem="oyJ-KD-JLq" firstAttribute="top" secondItem="uWI-R8-gcV" secondAttribute="bottom" constant="8" symbolic="YES" id="eDu-fH-xWb"/>
-                            <constraint firstAttribute="trailing" secondItem="Llv-qf-EkB" secondAttribute="trailing" id="gcH-jK-xBg"/>
-                            <constraint firstItem="Llv-qf-EkB" firstAttribute="top" secondItem="xEw-yG-Gbu" secondAttribute="top" id="h8D-gm-ghl"/>
-                            <constraint firstItem="oyJ-KD-JLq" firstAttribute="trailing" secondItem="FuP-MI-T0g" secondAttribute="trailing" id="hiw-xl-5nv"/>
-                            <constraint firstItem="Llv-qf-EkB" firstAttribute="trailing" secondItem="oyJ-KD-JLq" secondAttribute="trailing" id="nmE-Z1-BWv"/>
-                            <constraint firstItem="Llv-qf-EkB" firstAttribute="leading" secondItem="xEw-yG-Gbu" secondAttribute="leading" id="oSt-c9-Ajp"/>
-                            <constraint firstItem="ubf-t8-dEL" firstAttribute="leading" secondItem="xEw-yG-Gbu" secondAttribute="leadingMargin" constant="-1" id="xpZ-wT-08q"/>
+                            <constraint firstItem="ubf-t8-dEL" firstAttribute="leading" secondItem="xEw-yG-Gbu" secondAttribute="leadingMargin" constant="-1" id="Cdi-eR-2DP"/>
+                            <constraint firstItem="uWI-R8-gcV" firstAttribute="centerX" secondItem="K6g-oW-xWc" secondAttribute="centerX" id="EBJ-VU-jKR"/>
+                            <constraint firstItem="ubf-t8-dEL" firstAttribute="top" secondItem="VF8-RP-UNJ" secondAttribute="bottom" id="HTw-y9-Nrw"/>
+                            <constraint firstItem="zum-QY-4K9" firstAttribute="trailing" secondItem="FuP-MI-T0g" secondAttribute="trailing" id="IK5-7L-dD8"/>
+                            <constraint firstItem="uWI-R8-gcV" firstAttribute="top" secondItem="VF8-RP-UNJ" secondAttribute="bottom" constant="133" id="JLa-mU-1d3"/>
+                            <constraint firstAttribute="trailing" secondItem="Llv-qf-EkB" secondAttribute="trailing" id="K8l-Xh-6Nb"/>
+                            <constraint firstItem="uWI-R8-gcV" firstAttribute="centerY" secondItem="K6g-oW-xWc" secondAttribute="centerY" id="Pqx-t4-CqN"/>
+                            <constraint firstItem="Llv-qf-EkB" firstAttribute="trailing" secondItem="zum-QY-4K9" secondAttribute="trailing" id="SwU-HI-1lL"/>
+                            <constraint firstItem="Llv-qf-EkB" firstAttribute="top" secondItem="xEw-yG-Gbu" secondAttribute="top" id="d5r-Ul-JRh"/>
+                            <constraint firstItem="zum-QY-4K9" firstAttribute="leading" secondItem="FuP-MI-T0g" secondAttribute="leading" id="f4V-H9-9VK"/>
+                            <constraint firstItem="Llv-qf-EkB" firstAttribute="centerX" secondItem="uWI-R8-gcV" secondAttribute="centerX" id="lbt-cB-hmZ"/>
+                            <constraint firstItem="Llv-qf-EkB" firstAttribute="leading" secondItem="zum-QY-4K9" secondAttribute="leading" id="mjO-Pj-Sx4"/>
+                            <constraint firstItem="A2h-GG-adr" firstAttribute="top" secondItem="zum-QY-4K9" secondAttribute="bottom" constant="39" id="o1r-bz-hoG"/>
+                            <constraint firstItem="Llv-qf-EkB" firstAttribute="leading" secondItem="xEw-yG-Gbu" secondAttribute="leading" id="sq3-rA-Sh1"/>
+                            <constraint firstItem="zum-QY-4K9" firstAttribute="top" secondItem="uWI-R8-gcV" secondAttribute="bottom" constant="8" symbolic="YES" id="vGE-sk-7PI"/>
+                            <constraint firstItem="FuP-MI-T0g" firstAttribute="bottom" secondItem="A2h-GG-adr" secondAttribute="top" id="zyg-5x-dLe"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="QIN-zA-Lur">
@@ -247,7 +246,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="googleMapsView" destination="oyJ-KD-JLq" id="BeD-UL-cZ0"/>
+                        <outlet property="mapView" destination="zum-QY-4K9" id="blH-i5-ZiR"/>
                         <outlet property="searchPlacesBtn" destination="K6g-oW-xWc" id="XgO-gx-Ujg"/>
                         <outlet property="statusLabel" destination="Llv-qf-EkB" id="W8f-DE-Q4W"/>
                         <outlet property="updateInfoBtn" destination="FuP-MI-T0g" id="ezg-R4-7lM"/>
