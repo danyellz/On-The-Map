@@ -59,7 +59,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="LogoImg" translatesAutoresizingMaskIntoConstraints="NO" id="StM-Fl-WJf">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoImg" translatesAutoresizingMaskIntoConstraints="NO" id="StM-Fl-WJf">
                                 <rect key="frame" x="250" y="74" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="100" id="fyE-NT-MWZ"/>
@@ -105,28 +105,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d0z-rM-b4x">
-                                <rect key="frame" x="209" y="72" width="183" height="57"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="183" id="oR4-6N-TWQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RTM-pH-Ni2">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i7v-0K-t0X">
+                                <rect key="frame" x="209" y="72" width="183" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="183" id="cma-nJ-K4e"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="d0z-rM-b4x" firstAttribute="centerX" secondItem="RTM-pH-Ni2" secondAttribute="centerX" id="2Hf-8p-mkZ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="RTM-pH-Ni2" secondAttribute="trailing" constant="-20" id="b7C-t4-QjZ"/>
-                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="bottom" secondItem="S9D-9J-n7P" secondAttribute="bottomMargin" constant="-49" id="dFu-v2-YhS"/>
-                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="top" secondItem="S9D-9J-n7P" secondAttribute="topMargin" id="lYC-N6-KUU"/>
-                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="leading" secondItem="S9D-9J-n7P" secondAttribute="leadingMargin" constant="-20" id="mx9-jY-bFI"/>
-                            <constraint firstItem="QMS-WD-cuQ" firstAttribute="top" secondItem="d0z-rM-b4x" secondAttribute="bottom" constant="422" id="s4y-iH-vg3"/>
-                            <constraint firstItem="d0z-rM-b4x" firstAttribute="top" secondItem="HYq-mn-9aP" secondAttribute="bottom" constant="8" symbolic="YES" id="wA0-IE-eTc"/>
+                            <constraint firstItem="i7v-0K-t0X" firstAttribute="top" secondItem="HYq-mn-9aP" secondAttribute="bottom" constant="8" symbolic="YES" id="JY0-q6-2gX"/>
+                            <constraint firstItem="QMS-WD-cuQ" firstAttribute="top" secondItem="i7v-0K-t0X" secondAttribute="bottom" constant="429" id="JqE-JK-Rah"/>
+                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="bottom" secondItem="QMS-WD-cuQ" secondAttribute="top" id="Naw-C5-62R"/>
+                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="top" secondItem="S9D-9J-n7P" secondAttribute="top" id="alw-CJ-bzs"/>
+                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="leading" secondItem="S9D-9J-n7P" secondAttribute="leading" id="bNd-DE-idI"/>
+                            <constraint firstItem="RTM-pH-Ni2" firstAttribute="centerX" secondItem="i7v-0K-t0X" secondAttribute="centerX" id="noZ-gA-Muk"/>
+                            <constraint firstAttribute="trailing" secondItem="RTM-pH-Ni2" secondAttribute="trailing" id="yLk-yJ-DgK"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="OnTheMap" id="qYl-FB-bA3">
@@ -153,12 +153,12 @@
                         <outlet property="mapView" destination="RTM-pH-Ni2" id="OQx-22-FGu"/>
                         <outlet property="overwriteInfo" destination="NFL-Xq-bTJ" id="nOC-oK-XmI"/>
                         <outlet property="reloadStudentData" destination="6vO-md-fEI" id="fLE-qY-O7g"/>
-                        <outlet property="studentCountLabel" destination="d0z-rM-b4x" id="tEP-dm-bAH"/>
+                        <outlet property="studentCountLabel" destination="i7v-0K-t0X" id="ufZ-81-FWL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aQb-K2-7cE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2749" y="267"/>
+            <point key="canvasLocation" x="2740" y="259"/>
         </scene>
         <!--Information Posting View Controller-->
         <scene sceneID="z1N-Y0-ge3">

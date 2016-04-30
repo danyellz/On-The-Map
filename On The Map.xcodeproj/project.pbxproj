@@ -32,6 +32,7 @@
 		1078B4C01CAB844900BC8E81 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1078B4BF1CAB844900BC8E81 /* MapKit.framework */; };
 		1078B4C21CABA1E000BC8E81 /* MapMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078B4C11CABA1E000BC8E81 /* MapMapViewController.swift */; };
 		107DB23F1CB1F2F000CB291A /* OnTheMapTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107DB23E1CB1F2F000CB291A /* OnTheMapTable.swift */; };
+		1098310D1CD44CD400FED53E /* StudentDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1098310C1CD44CD400FED53E /* StudentDataModel.swift */; };
 		10B4C49D1CB8C00B00C144C9 /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B4C49C1CB8C00B00C144C9 /* InformationPostingViewController.swift */; };
 		7ADA7E89A677C38A08E49FCA /* Pods_On_The_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4799395FD9E9005756A2C768 /* Pods_On_The_Map.framework */; };
 /* End PBXBuildFile section */
@@ -86,6 +87,7 @@
 		1078B4BF1CAB844900BC8E81 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		1078B4C11CABA1E000BC8E81 /* MapMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapMapViewController.swift; sourceTree = "<group>"; };
 		107DB23E1CB1F2F000CB291A /* OnTheMapTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OnTheMapTable.swift; path = ../OnTheMapTable.swift; sourceTree = "<group>"; };
+		1098310C1CD44CD400FED53E /* StudentDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentDataModel.swift; sourceTree = "<group>"; };
 		10B4C4981CB8ADA900C144C9 /* On The Map-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "On The Map-Bridging-Header.h"; sourceTree = "<group>"; };
 		10B4C49C1CB8C00B00C144C9 /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
 		4799395FD9E9005756A2C768 /* Pods_On_The_Map.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_On_The_Map.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +171,7 @@
 				10324B3B1CA63455009041F5 /* OnTheMapConstants.swift */,
 				10B4C49C1CB8C00B00C144C9 /* InformationPostingViewController.swift */,
 				100DD99A1CBC5362002336E9 /* SearchTableController.swift */,
+				1098310C1CD44CD400FED53E /* StudentDataModel.swift */,
 				10324B0A1CA627BD009041F5 /* Main.storyboard */,
 				10324B101CA627BD009041F5 /* Assets.xcassets */,
 				10324B121CA627BD009041F5 /* LaunchScreen.storyboard */,
@@ -400,6 +403,7 @@
 				1078B4C21CABA1E000BC8E81 /* MapMapViewController.swift in Sources */,
 				100FB89D1CAF4525006C00C3 /* ParseConvenience.swift in Sources */,
 				10324B091CA627BD009041F5 /* ViewController.swift in Sources */,
+				1098310D1CD44CD400FED53E /* StudentDataModel.swift in Sources */,
 				107DB23F1CB1F2F000CB291A /* OnTheMapTable.swift in Sources */,
 				10B4C49D1CB8C00B00C144C9 /* InformationPostingViewController.swift in Sources */,
 				10324B3C1CA63455009041F5 /* OnTheMapConstants.swift in Sources */,

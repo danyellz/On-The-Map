@@ -16,9 +16,9 @@ class OnTheMapClient : NSObject{
     var session: NSURLSession
     
     // authentication state
-    var requestToken: String? = nil
-    var sessionID: String? = nil
-    var userID: Int? = nil
+    var requestToken: String?
+    var sessionID: String?
+    var userID: Int?
     
     // MARK: Initializers
     

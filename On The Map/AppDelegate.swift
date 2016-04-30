@@ -19,9 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var objectID = ""
     var userData = [String]()
     
-    //Array that holds all student data using the UserInformation struct in UserInfoStruct.swift
-    static var studentData = [UserInformation]()
-    
     let googleMapsApiKey = "AIzaSyA5BkHaU63gi6njmiCUfkjqqEECgxpMWos"
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -116,21 +113,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 abort()
             }
         }
-    }
-}
-
-extension AppDelegate{
-    func urlFromComponents(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
-        let components = NSURLComponents()
-        components.queryItems = [NSURLQueryItem]()
-        var userData = [String]()
-        
-        for (key, value) in parameters {
-            let queryItem = NSURLQueryItem(name: key, value: "\(value)")
-            components.queryItems!.append(queryItem)
-        }
-        
-        return components.URL!
     }
 }
 

@@ -5,7 +5,6 @@
 //  Created by TY on 4/3/16.
 //  Copyright © 2016 On The Map. All rights reserved.
 //
-
 import Foundation
 import UIKit
 
@@ -13,11 +12,8 @@ class OnTheMapTable: UITableViewController{
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var reloadStudentData: UIBarButtonItem!
     
-    var appDelegate: AppDelegate!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         view.backgroundColor = UIColor.grayColor()
     }
@@ -63,29 +59,29 @@ class OnTheMapTable: UITableViewController{
             }
             
             //If there is data currently loaded into the table, remove all previous data
-            if !AppDelegate.studentData.isEmpty{
-                AppDelegate.studentData.removeAll()
+            if !StudentDataModel.studentData.isEmpty{
+                StudentDataModel.studentData.removeAll()
             }
             
             //Add new data to the student data struct, replacing removed data
             for s in result!{
-                AppDelegate.studentData.append(UserInformation(dictionary: s))
+                StudentDataModel.studentData.append(UserInformation(dictionary: s))
             }
             //Load student data from latest to oldest when querying from Parse
-            AppDelegate.studentData = AppDelegate.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
+            StudentDataModel.studentData = StudentDataModel.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
         }
         
     }
     
     //Determine the number of rows loaded onto the tableview
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AppDelegate.studentData.count
+        return StudentDataModel.studentData.count
     }
     
     //When a cell is selected, go to the student URL
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("studentDataCell")
-        let student = AppDelegate.studentData[indexPath.row]
+        let student = StudentDataModel.studentData[indexPath.row]
         let titleText = student.firstName + " " + student.lastName
         
         cell?.textLabel?.text = titleText
@@ -96,7 +92,7 @@ class OnTheMapTable: UITableViewController{
     //When a cell is selected, go to the student URL
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let selectedUrl = AppDelegate.studentData[indexPath.row]
+        let selectedUrl = StudentDataModel.studentData[indexPath.row]
         let userUrl = selectedUrl.mediaURL
         
         if userUrl.rangeOfString("http") != nil{

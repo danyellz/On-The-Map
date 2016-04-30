@@ -6,14 +6,13 @@
 //  Copyright © 2016 On The Map. All rights reserved.
 //
 
+
 import Foundation
 import UIKit
 import CoreLocation
 import MapKit
 
 class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-    
-    var appDelegate: AppDelegate!
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var logOut: UIBarButtonItem!
@@ -22,11 +21,11 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
     @IBOutlet weak var studentCountLabel: UILabel!
     
     let cllocationManager: CLLocationManager = CLLocationManager()
+    var appDelegate: AppDelegate!
     
     
     override func viewDidLoad(){
         super.viewDidLoad()
-        
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         self.cllocationManager.requestAlwaysAuthorization()
@@ -57,8 +56,8 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
                 return
             }
             /* Store the user resulting user data in the appDelegate */
-            
             self.appDelegate.userData = result!
+            print(self.appDelegate.userData)
         }
     }
     
@@ -89,18 +88,18 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
             }
             
             /*If studentData array in data model is not empty, remove all previous data to prepare view*/
-            if !AppDelegate.studentData.isEmpty{
-                AppDelegate.studentData.removeAll()
+            if !StudentDataModel.studentData.isEmpty{
+                StudentDataModel.studentData.removeAll()
             }
             
             /*Unwrap the optional result or the userinformation loaded from Parse*/
             /*Add all Udacity user's data from parse into local data model*/
             for s in result! {
-                AppDelegate.studentData.append(UserInformation(dictionary: s))
+                StudentDataModel.studentData.append(UserInformation(dictionary: s))
             }
             
             /*Query the student data from most recent to latest, to be used on the map*/
-            AppDelegate.studentData = AppDelegate.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
+            StudentDataModel.studentData = StudentDataModel.studentData.sort() {$0.updatedAt.compare($1.updatedAt) == NSComparisonResult.OrderedDescending}
             
             /*Add student data to the map*/
             dispatch_async(dispatch_get_main_queue(), {
@@ -136,7 +135,7 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
         var points = [CLLocationCoordinate2D]()
         
         /* For each student in the data */
-        for s in AppDelegate.studentData {
+        for s in StudentDataModel.studentData {
             
             self.cllocationManager.delegate = self
             
@@ -164,6 +163,7 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
                 self.mapView.addAnnotations(annotations)
                 self.mapView.showAnnotations(annotations, animated: true)
                 self.studentCountLabel.text = "Student Count:" + String(points.count)
+                print("Student Count:" + String(points.count))
             })
         }
     }
@@ -241,9 +241,8 @@ class MapMapViewController: UIViewController, MKMapViewDelegate, CLLocationManag
     /*Alert message confirming overwrite/transition to new view*/
     func showOverwriteLocationAlert(){
         /* Prepare the strings for the alert */
-        let userFirstName = self.appDelegate.userData[0]
         let alertTitle = "Overwrite location?"
-        let alertMessage = userFirstName + " do you really want to overwrite your existing information?"
+        let alertMessage = "Do you really want to overwrite your existing information?"
         
         /* Prepare to overwrite for the alert */
         let overWriteAction = UIAlertAction(title: "Overwrite", style: .Default) {(action) in

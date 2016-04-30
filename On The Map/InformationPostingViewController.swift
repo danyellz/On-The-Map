@@ -31,6 +31,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
     var userLong = [Double]()
     //Store string of selected address
     var addressString = [String]()
+    var studentDataModel: StudentDataModel!
     var appDelegate: AppDelegate!
     
     let cllocationManager: CLLocationManager = CLLocationManager()
@@ -43,6 +44,7 @@ class InformationPostingViewController: UIViewController, UITextFieldDelegate, M
         super.viewDidLoad()
         
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
         self.urlLinkField.hidden = true
         self.urlLinkField.enabled = false
         urlLinkField.delegate = self
